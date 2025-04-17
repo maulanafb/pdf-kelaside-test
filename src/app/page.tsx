@@ -34,8 +34,9 @@ const PDFViewerPage = () => {
   }, [isLoading]);
 
   const PDFComponent = useMemo(() => (
-    <RPConfig>
+    <RPConfig >
       <RPProvider
+
         src="https://is3.cloudhost.id/kelaside/pdf/ab53ddfc-ba12-4756-af57-44e214136045-KUNCI%20JAWABAN%20MODUL%20PROFESIONAL%20TOPIK%201%20PAI%20(1).pdf"
         initialScale={80}
         onLoaded={() => {
@@ -43,14 +44,14 @@ const PDFViewerPage = () => {
           setLoadingProgress(100); // Set progress to 100 when loaded
         }}
       >
-        <div className="max-w-6xl mx-auto h-screen w-full">
+        <div className="max-w-6xl mx-auto h-screen w-full" >
           <RPTheme
             customVariables={{
               "--rp-sidebar-width": "0px",
             }}
           >
             <RPDefaultLayout
-              style={{ height: "100vh" }}
+              style={{ height: "100vh",userSelect: "none", WebkitUserSelect: "none", }}
               slots={{
                 downloadTool: false,
                 printTool: false,
@@ -68,7 +69,7 @@ const PDFViewerPage = () => {
   if (!isClient) {
     return (
       <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500">KONTOOOO</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500">test</div>
       </div>
     );
   }
@@ -106,7 +107,7 @@ const PDFViewerPage = () => {
           <div className="w-full flex flex-col items-center px-4 sm:px-2 md:px-2">
             {isLoading && (
               <div className="w-full flex flex-col items-center py-20">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500">KONTOO</div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500">test</div>
                 <div className="mt-4 text-gray-700">Loading... {loadingProgress}%</div>
               </div>
             )}

@@ -50,7 +50,7 @@ const PDFViewerPage = () => {
             }}
           >
             <RPDefaultLayout
-              style={{ height: "100vh" }}
+              style={{ height: "100vh",userSelect: "none", WebkitUserSelect: "none",  }}
               slots={{
                 downloadTool: false,
                 printTool: false,

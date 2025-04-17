@@ -25,3 +25,10 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+._rp-pages_1965c_11 {
+  /* -webkit-user-select: none;  */
+  /* -moz-user-select: none; */
+  /* -ms-user-select: none; */
+   /* user-select: none; */
+}
