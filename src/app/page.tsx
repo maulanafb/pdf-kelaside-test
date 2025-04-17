@@ -56,6 +56,7 @@ const PDFViewerPage = () => {
                 downloadTool: false,
                 printTool: false,
                 openFileTool: false,
+                documentProperties: false,
               }}
             >
               <RPPages />
