@@ -27,7 +27,7 @@ const PDFViewerPage = () => {
             clearInterval(interval);
             return 100;
           }
-          return prev + 7; // Increase progress by 10%
+          return prev + 6; // Increase progress by 10%
         });
       }, 500); // Update every 500ms
     }
@@ -36,7 +36,7 @@ const PDFViewerPage = () => {
   const PDFComponent = useMemo(() => (
     <RPConfig>
       <RPProvider
-        src="https://is3.cloudhost.id/kelaside/pdf/ab53ddfc-ba12-4756-af57-44e214136045-KUNCI%20JAWABAN%20MODUL%20PROFESIONAL%20TOPIK%201%20PAI%20(1).pdf"
+        src="https://api.kelaside.com/content/topics/6230603f-1092-4ac0-b7b8-f8e4af54a49c-Mod-MATERI-TIU-CPNS.pdf"
         initialScale={80}
         onLoaded={() => {
           setIsLoading(false);

@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import {
@@ -8,29 +9,31 @@ import {
   RPConfig,
   RPTheme,
 } from '@pdf-viewer/react';
-import Link from 'next/link';
 
 const PDFViewerPage = () => {
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  // Simulasi progress loading
   useEffect(() => {
-    if (isLoading) {
-      const interval = setInterval(() => {
-        setLoadingProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + 7; // Increase progress by 10%
-        });
-      }, 500); // Update every 500ms
-    }
+    if (!isLoading) return;
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return prev;
+        }
+        return prev + Math.random() * 5; // progress naik acak
+      });
+    }, 200);
+
+    return () => clearInterval(interval);
   }, [isLoading]);
 
   const PDFComponent = useMemo(() => (
@@ -38,10 +41,7 @@ const PDFViewerPage = () => {
       <RPProvider
         src="https://is3.cloudhost.id/kelaside/pdf/ab53ddfc-ba12-4756-af57-44e214136045-KUNCI%20JAWABAN%20MODUL%20PROFESIONAL%20TOPIK%201%20PAI%20(1).pdf"
         initialScale={80}
-        onLoaded={() => {
-          setIsLoading(false);
-          setLoadingProgress(100); // Set progress to 100 when loaded
-        }}
+        onLoaded={() => setIsLoading(false)}
       >
         <div className="max-w-6xl mx-auto h-screen w-full">
           <RPTheme
@@ -63,12 +63,20 @@ const PDFViewerPage = () => {
         </div>
       </RPProvider>
     </RPConfig>
-  ), []); // <- Will not re-render because of empty dependency
+  ), []); // Tidak akan re-render karena dependency kosong
 
   if (!isClient) {
     return (
       <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500">KONTOOOO</div>
+        <div className="w-full max-w-xl mx-auto px-6 py-8">
+          <div className="h-2 bg-gray-200 rounded overflow-hidden">
+            <div
+              className="h-full bg-blue-500 transition-all duration-200"
+              style={{ width: `${progress}%` }}
+              
+            ></div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -76,41 +84,26 @@ const PDFViewerPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm py-4 mb-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">PDF NORMAL KELASIDE</h1>
-        <nav className="flex space-x-4">
-          <Link
-            href="/pdf-berat"
-            className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-          >
-            PDF BERAT
-          </Link>
-          <Link
-            href="/pdf-link"
-            className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-          >
-            PDF LINK
-          </Link>
-          <Link
-            href="/"
-            className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-          >
-            PDF NORMAL
-          </Link>
-        </nav>
-      </div>
-    </header>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-2xl font-bold text-gray-900">PDF Viewer</h1>
+        </div>
+      </header>
 
       <main>
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="w-full flex flex-col items-center px-4 sm:px-2 md:px-2">
             {isLoading && (
-              <div className="w-full flex flex-col items-center py-20">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500">KONTOO</div>
-                <div className="mt-4 text-gray-700">Loading... {loadingProgress}%</div>
+              <div className="w-full max-w-xl mx-auto px-6 py-8">
+                <div className="h-2 bg-gray-200 rounded overflow-hidden">
+                  <div
+                    className="h-full bg-blue-500 transition-all duration-200"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
               </div>
             )}
-            {PDFComponent}
+
+            {!isLoading && PDFComponent}
           </div>
         </div>
       </main>
@@ -123,7 +116,14 @@ const Page = () => {
     ssr: false,
     loading: () => (
       <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="w-full max-w-xl mx-auto px-6 py-8">
+          <div className="h-2 bg-gray-200 rounded overflow-hidden">
+            <div
+              className="h-full bg-blue-500 transition-all duration-200"
+              style={{ width: `50%` }} // Memulai progress dengan nilai 50%
+            ></div>
+          </div>
+        </div>
       </div>
     ),
   });
